@@ -19,7 +19,7 @@ well for counting manatee aggregations in environments with complex background.
 
 ## Source Images
 #### Source video 
-[Save the Manatee](https://www.savethemanatee.org/manatees/manatee-webcams/10/16) provides on underwater and above water webcames for watching manatees as well as some video clips. You can download the video we used in this project from [Blue Spring Manatee Webcam Highlights - Above Water (3)](https://www.youtube.com/watch?v=KEIDm1S8qmk&t=2676s) and you can also download the video from [Goole Drive](https://drive.google.com/drive/folders/1_VNmEzw0PDOJD07m4ApQ-Zcov_wHcp92?usp=sharing)
+[Save the Manatee](https://www.savethemanatee.org/manatees/manatee-webcams/10/16) provides on underwater and above water webcames for watching manatees as well as some video clips. You can download the video we used in this project from [Blue Spring Manatee Webcam Highlights - Above Water (3)](https://www.youtube.com/watch?v=KEIDm1S8qmk&t=2676s) and you can also download the video from [Google Drive](https://drive.google.com/drive/folders/1_VNmEzw0PDOJD07m4ApQ-Zcov_wHcp92?usp=sharing)
 
 #### Generate images
 Once the video has been downloaded, move it into the folder `$this_project_folder$/src/image_generator`, run this script to generate images from the video
@@ -27,6 +27,13 @@ Once the video has been downloaded, move it into the folder `$this_project_folde
 `python extract_frames_moviepy.py $video_name$.mp4`
 
 A folder named `$video_name$-moviepy` will be generated at the same folder and all the images will be placed in that folder.
+
+#### Images samples generated from the video
+<p float="left">
+  <img src="./samples/frame0-00-40.00.jpg" width="150" />
+  <img src="./samples/frame0-04-00.00.jpg" width="150" /> 
+  <img src="./samples/frame0-07-30.00.jpg" width="150" />
+</p>
 
 #### Remove duplicated images
 * **Extract images features**
