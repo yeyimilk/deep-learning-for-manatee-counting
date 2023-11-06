@@ -25,11 +25,18 @@ For example
 The Json file contains the image name, `img_id`, the number of manatees within the images, `human_num`, and the start point,`(sx, xy)` and end point, `(ex, ey)`, for each of the line label,`boxes`(the key is inhereted from CCLabeler for boxing labeling).
 
 ## Run the program
+### Dot density map
+Make sure you have images and lables within the folder of `dataset`, otherwise you may need to adjust the value within the code.
+
+Go into the folder of `src/densitymap_generator`, run `python3 make_dot_dataset.py`
+
+The density maps for all the images will be generated in `dataset/ground_truth_dot`
+
 
 TODO:
 1. Generate Density map with the given images and labels
 2. Train with different CNNs
 
 
-## Details to setup the program one by one
+## Details to setup the program step by step
 You can refer to another [DETAILS_README](DETAILS_README.md) for more details about how to generate images, calculate their distances, drop images ete.
