@@ -1,18 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import os
 import pickle
 from os import listdir
 from os.path import isfile, join
 import numpy as np
 import sys
-
-
-# In[2]:
 
 
 def get_files_from_folder(folder):
@@ -85,9 +79,6 @@ def calculate_and_save(folder):
     result_path = folder + "/distance_results"
     fdc = FeatureDistanceCalculations(result_path)
     fdc.calculate_and_save(folder)
-
-
-# In[4]:
 
 
 if __name__ == "__main__":

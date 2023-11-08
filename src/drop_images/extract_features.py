@@ -1,19 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
-import numpy as np
-import torch
 import torch.nn as nn
-from torchvision import datasets
 from torchvision import transforms
-from torchvision import models
-from torch.utils.data.sampler import SubsetRandomSampler
 from PIL import Image
-import json
-from pathlib import Path
 import os
 import pickle
 from os import listdir
