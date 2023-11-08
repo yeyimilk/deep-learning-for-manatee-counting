@@ -13,8 +13,6 @@ def load_data(img_name, train=True, suffix='', crop=False, train_size=(720, 720)
     dataset_path = pathlib.Path(__file__).parent.parent.parent / 'dataset'
     gt_path = dataset_path / suffix / f'{img_name}.h5'
     img_path = dataset_path / 'images' / f'{img_name}.jpg'
-    print(gt_path)
-    print(img_path)
     
     img = Image.open(img_path).convert("RGB")
     gt_file = h5py.File(gt_path)

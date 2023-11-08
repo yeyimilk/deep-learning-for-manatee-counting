@@ -5,6 +5,9 @@ from torchvision import transforms
 from torch.autograd import Variable
 import time
 from utils import device
+import os
+import json
+import shutil
 
 def validate(val_list, model, criterion, suffix, crop, train_size):
     print('begin test')
@@ -92,3 +95,17 @@ def train(train_list, model, criterion, optimizer, epoch, batch_size, num_worker
         #     .format(
         #         epoch, i, len(train_loader), batch_time=batch_time,
         #         data_time=data_time, loss=losses))
+        
+
+def save_checkpoint(state, is_best, task_id, weight_save_dir, filename='checkpoint.pth.tar', history=None):
+    ckpt_path = os.path.join(weight_save_dir, task_id + filename)
+    torch.save(state, ckpt_path)
+    
+    with open(os.path.join(weight_save_dir, "history.json"), "w") as f:
+        json.dump(history, f)
+        
+    if is_best:
+        if float(state['best_prec1']) < 4.0:
+            mae = str('{mae:.3f}'.format(mae=state['best_prec1']))
+            best_path = os.path.join(weight_save_dir, task_id + '_epoch_' + str(state['epoch']) + '_mae_' + mae + '.pth.tar')
+            shutil.copyfile(ckpt_path, best_path)
