@@ -4,8 +4,9 @@ import torch
 from torchvision import transforms
 from torch.autograd import Variable
 import time
+from utils import device
 
-def validate(val_list, model, criterion):
+def validate(val_list, model, criterion, suffix, crop, train_size):
     print('begin test')
     test_loader = torch.utils.data.DataLoader(
         listDataset(val_list,
@@ -13,26 +14,30 @@ def validate(val_list, model, criterion):
                     transform=transforms.Compose([
                         transforms.ToTensor(), transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                                                     std=[0.229, 0.224, 0.225]),
-                    ]), train=False),
+                    ]), 
+                    train=False,
+                    suffix=suffix, crop=crop, train_size=train_size),
         batch_size=1)
 
     model.eval()
 
     mae = 0
 
-    for i, (img, target) in enumerate(test_loader):
-        img = img.cuda()
+    for _, (img, target) in enumerate(test_loader):
+        # img = img.cuda()
+        img = img.to(device)
         img = Variable(img)
         output = model(img)
-        mae += abs(output.data.sum() -
-                   target.sum().type(torch.FloatTensor).cuda())
+        target_sum = target.sum().type(torch.FloatTensor).to(device)
+        # mae += abs(output.data.sum() - target.sum().type(torch.FloatTensor).cuda())
+        mae += abs(output.data.sum() - target_sum)
 
     mae = mae / len(test_loader)
     print(' * MAE {mae:.3f} '.format(mae=mae))
 
     return mae
 
-def train(train_list, model, criterion, optimizer, epoch, batch_size, num_workers):
+def train(train_list, model, criterion, optimizer, epoch, batch_size, num_workers, suffix, crop, train_size):
     # loss, training time, data loading time
     losses = AverageMeter()
     batch_time = AverageMeter()
@@ -49,7 +54,8 @@ def train(train_list, model, criterion, optimizer, epoch, batch_size, num_worker
                     train=True,
                     seen=model.seen,
                     batch_size=batch_size,
-                    num_workers=num_workers))
+                    num_workers=num_workers,
+                    suffix=suffix, crop=crop, train_size=train_size))
     print('epoch %d, processed %d samples, lr %.4f' %
           (epoch, epoch * len(train_loader.dataset), optimizer.param_groups[0]['lr'] * 10000))
 
@@ -59,11 +65,13 @@ def train(train_list, model, criterion, optimizer, epoch, batch_size, num_worker
     for i, (img, target) in enumerate(train_loader):
         data_time.update(time.time() - end)
 
-        img = img.cuda()
+        # img = img.cuda()
+        img = img.to(device)
         img = Variable(img)
         output = model(img)
 
-        target = target.type(torch.FloatTensor).unsqueeze(1).cuda()
+        # target = target.type(torch.FloatTensor).unsqueeze(1).cuda()
+        target = target.type(torch.FloatTensor).unsqueeze(1).to(device)
         target = Variable(target)
 
         loss = criterion(output, target)

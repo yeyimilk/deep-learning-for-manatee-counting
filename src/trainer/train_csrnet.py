@@ -9,21 +9,22 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 import torch.nn as nn
 from csrnet import CSRNet
 from train_utils import train, validate
+from utils import device
 
-def main():
+def train_by_types(type):
     for f in range(1, 6, 1):
         cfg = edict()
         cfg["train_json"] = f"./data_path/train_2.0_f{str(f)}.json"  # path to train json
         cfg["test_json"] = f"./data_path/test_2.0_f{str(f)}.json"  # path to test json
-        cfg["suffix"] = 'ground_truth_dot'
+        cfg["suffix"] = type
         cfg["task"] = "CSRNet" + f'_2.0_f{str(f)}_' + cfg["suffix"]  # task is to use
         cfg["pre"] = cfg["task"] + "checkpoint.pth.tar"  # path to the pretrained model
         cfg["start_epoch"] = 0  # Starting epoch (impact learning rate)
-        cfg["epochs"] = 500  # Epoch
+        cfg["epochs"] = 1  # Epoch
         cfg["best_prec1"] = 1e6  # Optimal accuracy
         cfg["original_lr"] = 1e-4  # Initial learning rate
         cfg["lr"] = 1e-4  # learning rate
-        cfg["batch_size"] = 4  # batch_size
+        cfg["batch_size"] = 1  # batch_size
         cfg["decay"] = 1e-4  # Learning rate decay
         cfg["workers"] = 4  # Number of threads
         cfg["seed"] = time.time()  # Random seeds
@@ -42,12 +43,16 @@ def main():
 
         with open(cfg["train_json"], "r") as outfile:
             train_list = json.load(outfile)
+            # train_list = ['above0-00-40', 'above0-04-00']
         with open(cfg["test_json"], "r") as outfile:
             val_list = json.load(outfile)
+            # val_list = ['above0-07-30']
 
         model = CSRNet()
-        model = model.cuda()
-        criterion = nn.MSELoss().cuda()
+        # model = model.cuda()
+        # criterion = nn.MSELoss().cuda()
+        model = model.to(device)
+        criterion = nn.MSELoss().to(device)
 
         optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=cfg.lr, weight_decay=1e-4)
         scheduler = CosineAnnealingLR(optimizer, T_max=cfg.LR_TMAX, eta_min=cfg.LR_COSMIN)
@@ -74,9 +79,13 @@ def main():
 
         history = []
         for epoch in range(cfg['start_epoch'], cfg['epochs']):
-            train(train_list, model, criterion, optimizer, epoch, cfg['batch_size'], cfg['workers'])
+            train(train_list, model, criterion, optimizer, 
+                  epoch, cfg['batch_size'], cfg['workers'],
+                  cfg['suffix'], cfg.crop, cfg.train_size)
          
-            prec1 = validate(val_list, model, criterion)
+            prec1 = validate(val_list, model, criterion,
+                             cfg['suffix'], cfg.crop, cfg.train_size)
+            
             history.append(float(prec1))
             is_best = prec1 < cfg['best_prec1']
             cfg['best_prec1'] = min(prec1, cfg['best_prec1'])
@@ -93,4 +102,6 @@ def main():
             scheduler.step()
 
 if __name__ == '__main__':
-    main()
+    types = ['ground_truth_dot', 'ground_truth_line', 'ground_truth_anisotropy_1_4']
+    for type in types:
+        train_by_types(type)
