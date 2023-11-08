@@ -20,11 +20,11 @@ def train_by_types(type):
         cfg["task"] = "CSRNet" + f'_2.0_f{str(f)}_' + cfg["suffix"]  # task is to use
         cfg["pre"] = cfg["task"] + "checkpoint.pth.tar"  # path to the pretrained model
         cfg["start_epoch"] = 0  # Starting epoch (impact learning rate)
-        cfg["epochs"] = 1  # Epoch
+        cfg["epochs"] = 500  # Epoch
         cfg["best_prec1"] = 1e6  # Optimal accuracy
         cfg["original_lr"] = 1e-4  # Initial learning rate
         cfg["lr"] = 1e-4  # learning rate
-        cfg["batch_size"] = 1  # batch_size
+        cfg["batch_size"] = 4  # batch_size
         cfg["decay"] = 1e-4  # Learning rate decay
         cfg["workers"] = 4  # Number of threads
         cfg["seed"] = time.time()  # Random seeds
