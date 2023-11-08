@@ -1,24 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
-
-
 from moviepy.editor import VideoFileClip
 import numpy as np
 import os
 from datetime import timedelta
-
-
-# In[21]:
-
+import sys
 
 # i.e if video of duration 30 seconds, saves 10 frame per second = 300 frames saved in total
 SAVING_FRAMES_PER_SECOND = 0.1
-
-
-# In[5]:
-
 
 def format_timedelta(td):
     """Utility function to format timedelta objects in a cool way (e.g 00:00:20.05) 
@@ -31,9 +21,6 @@ def format_timedelta(td):
     ms = int(ms)
     ms = round(ms / 1e4)
     return f"{result}.{ms:02}".replace(":", "-")
-
-
-# In[23]:
 
 
 def main(video_file):
@@ -53,16 +40,11 @@ def main(video_file):
     for current_duration in np.arange(0, video_clip.duration, step):
         # format the file name and save it
         frame_duration_formatted = format_timedelta(timedelta(seconds=current_duration)).replace(":", "-")
-        frame_filename = os.path.join(filename, f"frame{frame_duration_formatted}.jpg")
+        frame_filename = os.path.join(filename, f"above{frame_duration_formatted}.jpg")
         # save the frame with the current duration
         video_clip.save_frame(frame_filename, current_duration)
 
-
-# In[24]:
-
-
 if __name__ == "__main__":
-    import sys
     video_file = sys.argv[1]
     main(video_file)
 

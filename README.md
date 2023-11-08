@@ -9,8 +9,8 @@ Manatees are aquatic mammals with voracious appetites. They rely on sea grass as
 
 You can download the video we used in this project from [Blue Spring Manatee Webcam Highlights - Above Water (3)](https://www.youtube.com/watch?v=KEIDm1S8qmk&t=2676s) and you can also download the video from [Google Drive](https://drive.google.com/drive/folders/1_VNmEzw0PDOJD07m4ApQ-Zcov_wHcp92?usp=sharing)
 
-The images and labels you can find it either via the [Google Drive](https://drive.google.com/drive/folders/1_VNmEzw0PDOJD07m4ApQ-Zcov_wHcp92) to download the zip file, `dataset.zip`.
-It contains two folders, `images` and `labels`. The `images` folder includes all the images while the labels contains a list of JSON file. For each of the image that it has a corresponding JSON file whose name is the same as the image.
+Download the images and labels from [dataset.zip](https://drive.google.com/drive/folders/1_VNmEzw0PDOJD07m4ApQ-Zcov_wHcp92).
+It contains two folders, `images` and `labels`. The `images` folder includes all the images and the labels contains a list of JSON file. For each of the image that it has a corresponding JSON file whose name is the same as the image.
 
 For example
 <p float="left">
