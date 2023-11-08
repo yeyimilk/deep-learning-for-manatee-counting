@@ -21,10 +21,6 @@ from os.path import isfile, join
 from tqdm import tqdm
 import sys
 
-
-# In[2]:
-
-
 class VGG16(nn.Module):
     def __init__(self, num_classes=10):
         super(VGG16, self).__init__()
@@ -127,7 +123,6 @@ class VGG16(nn.Module):
 #         out = self.fc2(out)
         return out, outs
 
-# # open
 def save_as_pickle_file(data, name):
     with open('{}.pickle'.format(name), 'wb') as handle:
         pickle.dump(data, handle)
@@ -135,10 +130,6 @@ def save_as_pickle_file(data, name):
 def get_files_from_folder(folder):
     onlyfiles = [f for f in listdir(folder) if isfile(join(folder, f)) and ".DS_Store" not in f]
     return onlyfiles
-
-
-# In[4]:
-
 
 class ImageFeatureExtraction():
     def __init__(self, image_folder):
@@ -191,19 +182,6 @@ def extract_features_and_save(folder):
     ife.extract_features_and_save()
     
 
-
-# In[6]:
-
-
 if __name__ == "__main__":
     folder = sys.argv[1]
     extract_features_and_save(folder)
-
-
-
-
-# In[ ]:
-
-
-
-

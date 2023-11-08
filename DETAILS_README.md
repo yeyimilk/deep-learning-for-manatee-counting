@@ -29,7 +29,7 @@ A folder named `$video_name$-moviepy` will be generated at the same folder and a
 	go into `src/drop_images` folder and run  
   `python extract_features.py $your_image_folder$` 
   
-  By running this command, for each of the image in the folder, its features are extracted from the image and saved into a `.pickle` file which has the same name with the image. These `.pickle` files are saved in the new folder of `feature_data` which is a subfolder where your run the command.
+  By running this command, for each of the image in the folder, its features are extracted from the image and saved into a `.pickle` file which has the same name with the image. These `.pickle` files are saved in the new folder of `feature_data` which is a subfolder where your run the command. (These files are bigger more than 100MB)
   
 * **Calculate the distance of the images**
 
