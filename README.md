@@ -4,6 +4,16 @@
 # Abstract
 Manatees are aquatic mammals with voracious appetites. They rely on sea grass as the main food source, and often spend up to eight hours a day grazing. They move slow and frequently stay in group (i.e. aggregations) in shallow water to search for food, making them vulnerable to environment change and other risks. Accurate counting manatee aggregations within a region is not only biologically meaningful in observing their habit, but also crucial for designing safety rules for human boaters, divers, etc., as well as scheduling nursing, intervention, and other plans. In this paper, we propose a deep learning based crowd counting approach to automatically count number of manatees within a region, by using low quality images as input. Because manatees have unique shape and they often stay in shallow water in groups, water surface reflection, occlusion, camouflage etc. making it difficult to accurately count manatee numbers. To address the challenges, we propose to use Anisotropic Gaussian Kernel (AGK), with tunable rotation and variances, to ensure that density functions can maximally capture shapes of individual manatees in different aggregations. After that, we apply AGK kernel to different types of deep neural networks primarily designed for crowd counting, including VGG, SANet, Congested Scene Recognition network (CSRNet), MARUNet etc. to learn manatee densities and calculate number of manatees in the scene. By using generic low quality images extracted from surveillance videos, our experiment results and comparison show that AGK kernel based manatee counting achieves minimum Mean Absolute Error (MAE) and Root Mean Square Error (RMSE). The proposed method works particularly well for counting manatee aggregations in environments with complex background. 
 
+## Results
+
+
+![](./samples/result_img.png)
+Examples of algorithm performance with respect to different manatee densities in the scene. The first row shows
+original images with increasing manatee density from left to right. The second and third rows show ground-truth density map
+(2nd row) and predicted density map (3rd row) using dot labels. The fourth and fifth rows show ground-truth density map (4th
+row) and predicted density map (5th row) using line labels and generic Gaussian kernels. The sixth and seventh rows show
+ground-truth density map (6th row) and predicted density map (7th row) using line labels and anisotropic Gaussian kernels
+
 
 ## Dataset
 
@@ -24,14 +34,26 @@ For example
 The Json file contains the image name, `img_id`, the number of manatees within the images, `human_num`, and the start point,`(sx, xy)` and end point, `(ex, ey)`, for each of the line label,`boxes`(the key is inhereted from CCLabeler for boxing labeling).
 
 ## Run the program
-### Generate density maps
+### Easy Demo
+
+If you are only interested in running the program, download or clone this project directly and go into the folder of `src/trainer` and then run
+
+```
+python3 train_networks debug
+```
+
+This command runs all 3 types of density maps over 4 different networks, CSRNET, MCNN, SANET and VGG.
+
+
+### To Train the NNs fully
+#### Generate density maps
 
 Current `dataset` folder only provides examples and shows how it looks like. I do not have enough storage in Google Drive to save generated density maps. You have to generate the density maps by youself which may takes about 5-10 minutes.
 
 * Download dataset from [Google Drive](https://drive.google.com/drive/folders/1_VNmEzw0PDOJD07m4ApQ-Zcov_wHcp92)
 * Unzip `dataset.zip` file to replace the current `dataset` folder
 
-In the dataset, it includes all the images and labels. However, I do not have enough storage in Google drive to upload the density maps. You have to generate the density maps by youself which may takes about 5-10 minutes.
+Now, within the `dataset` folder, you should have all images and labels.
 
 Please run the following script to generate the three types of density map
 
@@ -42,10 +64,13 @@ python make_dataset.py
 
 The final directory structure should be the same as current one.
 
+Once you have finished the density map generation, run the following command to start training and validation
 
-TODO:
-2. Train with different CNNs
+```
+cd src/trainer
+python3 train_networks debug
+```
 
 
 ## Details to setup the program step by step
-You can refer to another [DETAILS_README](DETAILS_README.md) for more details about how to generate images, calculate their distances, drop images ete.
+You can refer to [DETAILS_README](DETAILS_README.md) for more details about how to generate images, calculate their distances, drop images etc.

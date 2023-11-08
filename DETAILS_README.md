@@ -38,9 +38,13 @@ A folder named `$video_name$-moviepy` will be generated at the same folder and a
   By running this command, it will calculate the distance among each of the images and the results are saved into a subfolder of the feature data folder, `$path_to$/feature_data/distance_results/distance.pickle`.
   
   
- * **Choose images**
+* **Choose images**
    
-    As all the distances among all the images have been calculated, a threshold value can be used to determine weather images should be kept or not.
+	As all the distances among all the images have been calculated, a threshold value can be used to determine weather images should be kept or not.
+	
+	In our paper, the `threshold` value used to filter images is `2`. In order to make sure all different models are using the same data to train in same stage, we saved the filter results into 5 training json files and 5 testing json files.
+	
+	// TODO. I lost the script for this step. However, I have uploaded the json files we used for this paper which should not block you to reprodue the results.
 
 
 ## Labeling Work
