@@ -1,6 +1,6 @@
 # Counting Manatee Aggregations with Deep Learning 🚀
 
-This repository is the official implementation of our research work titled ["Counting Manatee Aggregations using Deep Neural Networks and Anisotropic Gaussian Kernel"](https://arxiv.org/abs/2311.02315) by Zhiqiang Wang, Yiran Pang, Cihan Ulus, and Xingquan Zhu.
+This repository is the official implementation of our research work titled ["Counting Manatee Aggregations using Deep Neural Networks and Anisotropic Gaussian Kernel"](https://rdcu.be/dq0Dr) by Zhiqiang Wang, Yiran Pang, Cihan Ulus, and Xingquan Zhu.
 
 ## About The Project
 
@@ -83,12 +83,14 @@ You can refer to [DETAILS_README](DETAILS_README.md) for more details about how 
 If you find our research useful, please consider citing our work using the following Bibtex entry:
 
 ```
-@misc{wang2023counting,
-  title={Counting Manatee Aggregations using Deep Neural Networks and Anisotropic Gaussian Kernel}, 
-  author={Zhiqiang Wang and Yiran Pang and Cihan Ulus and Xingquan Zhu},
+@article{wang2023counting,
+  title={Counting manatee aggregations using deep neural networks and Anisotropic Gaussian Kernel},
+  author={Wang, Zhiqiang and Pang, Yiran and Ulus, Cihan and Zhu, Xingquan},
+  journal={Scientific Reports},
+  volume={13},
+  number={1},
+  pages={19793},
   year={2023},
-  eprint={2311.02315},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV}
+  publisher={Nature Publishing Group UK London}
 }
 ```
