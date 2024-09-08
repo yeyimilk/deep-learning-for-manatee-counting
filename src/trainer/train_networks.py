@@ -25,7 +25,7 @@ def get_config(i, model_name, type):
     cfg["pre"] = cfg["task"] + "checkpoint.pth.tar"  # path to the pretrained model
     cfg["start_epoch"] = 0  # Starting epoch (impact learning rate)
     cfg["epochs"] = 1 if IS_DEBUG else 500  # Epoch
-    cfg["best_prec1"] = 1e6  # Optimal accuracy
+    cfg["best_prect"] = 1e6  # Optimal accuracy
     cfg["original_lr"] = 1e-6  # Initial learning rate
     cfg["lr"] = 1e-6  # learning rate
     cfg["batch_size"] = 4  # batch_size
@@ -44,6 +44,16 @@ def get_config(i, model_name, type):
     cfg.LR_DECAY_START = -1
     return cfg
 
+def create_model(name):
+    if name == 'csrnet':
+        return CSRNet()
+    elif name == 'mcnn':
+        return MCNN()
+    elif name == 'sanet':
+        return SANet()
+    else:
+        return VGG()
+
 def train_by_model_and_type(model_name, type):
     k = 2 if IS_DEBUG else 6
     for i in range(1, k, 1):
@@ -60,7 +70,7 @@ def train_by_model_and_type(model_name, type):
             if IS_DEBUG:
                 val_list = ['above0-07-30']
 
-        model = CSRNet()
+        model = create_model(model_name)
         # model = model.cuda()
         # criterion = nn.MSELoss().cuda()
         model = model.to(device)
@@ -74,7 +84,7 @@ def train_by_model_and_type(model_name, type):
             os.makedirs(weight_save_dir)
 
 
-        prec1 = cfg['best_prec1']
+        prec1 = cfg['best_prec']
 
         history = []
         for epoch in range(cfg['start_epoch'], cfg['epochs']):
@@ -86,29 +96,20 @@ def train_by_model_and_type(model_name, type):
                              cfg['suffix'], cfg.crop, cfg.train_size)
             
             history.append(float(prec1))
-            is_best = prec1 < cfg['best_prec1']
-            cfg['best_prec1'] = min(prec1, cfg['best_prec1'])
+            is_best = prec1 < cfg['best_prect']
+            cfg['best_prect'] = min(prec1, cfg['best_prect'])
             print(' * best MAE {mae:.3f} '
-                    .format(mae=cfg['best_prec1']))
+                    .format(mae=cfg['best_prect']))
             save_checkpoint({
                 'epoch': epoch + 1,
                 'arch': cfg['pre'],
                 'state_dict': model.state_dict(),
-                'best_prec1': cfg['best_prec1'],
+                'best_prect': cfg['best_prect'],
                 'optimizer': optimizer.state_dict(),
             }, is_best, cfg['task'], weight_save_dir, history=history)
 
             scheduler.step()
 
-def create_model(name):
-    if name == 'csrnet':
-        return CSRNet()
-    elif name == 'mcnn':
-        return MCNN()
-    elif name == 'sanet':
-        return SANet()
-    else:
-        return VGG()
 
 if __name__ == '__main__':
     types = ['ground_truth_dot', 'ground_truth_line', 'ground_truth_anisotropy_1_4']
