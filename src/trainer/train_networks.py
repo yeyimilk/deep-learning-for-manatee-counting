@@ -84,7 +84,7 @@ def train_by_model_and_type(model_name, type):
             os.makedirs(weight_save_dir)
 
 
-        prec1 = cfg['best_prec']
+        prec1 = cfg['best_prect']
 
         history = []
         for epoch in range(cfg['start_epoch'], cfg['epochs']):

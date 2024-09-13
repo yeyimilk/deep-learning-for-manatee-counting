@@ -10,7 +10,7 @@ import json
 import shutil
 
 def validate(val_list, model, criterion, suffix, crop, train_size):
-    print('begin test')
+    print('begin test', model.__class__.__name__)
     test_loader = torch.utils.data.DataLoader(
         listDataset(val_list,
                     shuffle=False,
@@ -105,7 +105,7 @@ def save_checkpoint(state, is_best, task_id, weight_save_dir, filename='checkpoi
         json.dump(history, f)
         
     if is_best:
-        if float(state['best_prec1']) < 4.0:
-            mae = str('{mae:.3f}'.format(mae=state['best_prec1']))
+        if float(state['best_prect']) < 4.0:
+            mae = str('{mae:.3f}'.format(mae=state['best_prect']))
             best_path = os.path.join(weight_save_dir, task_id + '_epoch_' + str(state['epoch']) + '_mae_' + mae + '.pth.tar')
             shutil.copyfile(ckpt_path, best_path)

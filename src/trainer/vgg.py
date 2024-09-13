@@ -7,6 +7,7 @@ from nn_utils import Conv2d
 class VGG(nn.Module):
     def __init__(self, pretrained=True):
         super(VGG, self).__init__()
+        self.seen = 0
         self.de_pred = nn.Sequential(Conv2d(512, 128, 1, same_padding=True, NL='relu'),
                                      Conv2d(128, 1, 1, same_padding=True, NL='relu'))
         

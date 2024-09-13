@@ -92,6 +92,8 @@ class SAModule(nn.Module):
 class SANet(nn.Module):
     def __init__(self, gray_input=False, use_bn=True):
         super(SANet, self).__init__()
+        self.seen = 0
+        
         if gray_input:
             in_channels = 1
         else:

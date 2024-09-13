@@ -13,6 +13,7 @@ class MCNN(nn.Module):
     
     def __init__(self, bn=False):
         super(MCNN, self).__init__()
+        self.seen = 0
         
         self.branch1 = nn.Sequential(Conv2d(3, 16, 9, same_padding=True, bn=bn),
                                      nn.MaxPool2d(2),
